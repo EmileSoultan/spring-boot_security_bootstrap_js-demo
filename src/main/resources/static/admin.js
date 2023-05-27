@@ -207,6 +207,32 @@ formDelete.addEventListener('submit', (e) => {
 	modalDelete.hide()
 })
 
+async function showUserInfo() {
+	let table = $('#tbody-user-info');
+	table.empty();
+	fetch("/api/user")
+	.then(data => data.json())
+	.then(user => {
+		let users = `$(
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.surname}</td>
+                    <td>${user.email}</td>
+                    <td>${user.roles.map(role =>role.name)}</td>
+                </tr>)`
+		table.append(users)
+	})
+
+	.catch((error) => {
+		alert(error);
+	})
+}
+
+$(async function(){
+	await showUserInfo();
+});
+
 let roleArray = (options) => {
 	let array = []
 	for (let i = 0; i < options.length; i++) {
